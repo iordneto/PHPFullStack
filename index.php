@@ -1,5 +1,6 @@
 <?php
 
-    echo "Primeiro teste em <strong>PHP</strong>"
+require 'bootstrap.php';
+require 'routes.php';
 
-?>
+$app->run();
