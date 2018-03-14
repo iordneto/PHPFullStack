@@ -28,7 +28,9 @@ abstract class AbstractDAO {
 	}
 
 	public function findById($id){
-		return $this->entityManager ->find($this->entityPath, $id);
+		$obj = $this->entityManager ->find($this->entityPath, $id);
+
+		return is_null($obj) ? [] : $obj->toArray();
 	}
 
 	public function findAll(){
@@ -36,7 +38,7 @@ abstract class AbstractDAO {
 
 		$data = array();
 		foreach($collection as $obj) {
-			$data [] = $obj;
+			$data [] = $obj->toArray();
 		}
 
 		return $data;

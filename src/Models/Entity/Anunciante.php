@@ -9,39 +9,53 @@ use Doctrine\Common\Collections\ArrayCollection;
  **/
 class Anunciante {
 
-     /**
-     * @var int
-     * @Id @Column(type="integer") 
-     * @GeneratedValue
-     */
-    public $id;
+    /**
+    *	@var integer @Id
+    *      @Column(name="id", type="integer")
+    *      @GeneratedValue(strategy="AUTO")
+    */
+    private $id;
 
     /**
      * @var string
-     * @Column(type="string") 
+     * @Column(type="string", length=255) 
      */
-    public $nome;
+    private $nome;
 
     /**
      * @var string
-     * @Column(type="string") 
+     * @Column(type="string", length=255) 
      */
-    public $endereco;
+    private $endereco;
 
     /**
      * @var string
-     * @Column(type="string") 
+     * @Column(type="string", length=255) 
      */
-    public $telefone;
+    private $telefone;
 
      /**
      * Um anunciante tem muitos Anuncios.
      * @OneToMany(targetEntity="Anuncio", mappedBy="anunciante", cascade={"persist", "remove"})
      */
-    public $anuncios;
+    private $anuncios;
 
-    public function __construct() {
+    public function __construct($id = 0, $nome = "", $endereco = "", $telefone = "") {
+        $this->id = $id;
+        $this->nome = $nome;
+        $this->endereco = $endereco;
+        $this->telefone = $telefone;
         $this->anuncios = new ArrayCollection();
+    }
+
+    public function construct($arrayAnunciante){
+        $anunciante = new Anunciante();
+        $anunciante
+            ->setId($arrayAnunciante['id'])
+            ->setNome($arrayAnunciante['nome'])
+            ->setEndereco($arrayAnunciante['endereco'])
+            ->setTelefone($arrayAnunciante['telefone']);
+        return $anunciante;
     }
 
      /**
@@ -118,5 +132,21 @@ class Anunciante {
      */
     public function getValues() {
         return get_object_vars($this);
+    }
+
+    public function __toString() {
+        return 
+            "'id': '".$this->getId()."'"
+            ."'nome': '".$this->getNome()."'"
+            ."'endereco': '".$this->getEndereco()."'"
+            ."'telefone': '".$this->getTelefone()."'";
+    }
+
+    public function toArray() {
+        return [
+            "id" => $this->getId(),
+            "nome" => $this->getNome(),
+            "endereco" => $this->getEndereco(),
+            "telefone" => $this->getTelefone()];
     }
 }

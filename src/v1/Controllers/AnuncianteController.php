@@ -6,9 +6,9 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use App\Models\Entity\Anunciante;
-use  APP\v1\DAO\AnuncianteDAO;
+use  App\v1\DAO\AnuncianteDAO;
 
-class AnuncianteController extends AbstractController {
+class AnuncianteController {
     
      /**
      * Container Class
@@ -17,12 +17,17 @@ class AnuncianteController extends AbstractController {
     private $container;
 
     /**
+     * @var [object]
+     */
+    private $persistencia;
+
+    /**
      * Undocumented function
      * @param [object] $container
      */
     public function __construct($container) {
         $this->container = $container;
-        parent::__construct(new AnuncianteDAO($this->container->get('em')));
+        $this->persistencia = new AnuncianteDAO($this->container->get('em'));
     }
 
      /**
@@ -33,13 +38,12 @@ class AnuncianteController extends AbstractController {
      * @return Response
      */
     public function listarAnunciantes($request, $response, $args) {
-        $entityManager = $this->container->get('em');
-        $anunciantesRepository = $entityManager->getRepository('App\Models\Entity\Anunciante');
-        $anunciantes = $anunciantesRepository->findAll();
+        $anunciantes = $this->persistencia->findAll();
+        
         $return = $response
             ->withJson($anunciantes, 200)
             ->withHeader('Content-type', 'application/json');
-        return $return;        
+        return $return;      
     }
 
     /**
@@ -80,9 +84,7 @@ class AnuncianteController extends AbstractController {
     public function visualizarAnunciante($request, $response, $args) {
         $id = (int) $args['id'];
 
-        $entityManager = $this->container->get('em');
-        $anunciantesRepository = $entityManager->getRepository('App\Models\Entity\Anunciante');
-        $anunciante = $anunciantesRepository->find($id);
+        $anunciante =$this->persistencia->findById($id);
         $return = $response
             ->withJson($anunciante, 200)
             ->withHeader('Content-type', 'application/json');

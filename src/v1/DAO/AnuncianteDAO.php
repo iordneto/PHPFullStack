@@ -2,6 +2,7 @@
 
 namespace App\v1\DAO;
 
+use App\v1\DAO\AbstractDAO;
 
 class AnuncianteDAO extends AbstractDAO{
 
