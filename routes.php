@@ -17,6 +17,9 @@ $app->group('/v1', function() {
         $this->get('/{id:[0-9]+}', '\App\v1\Controllers\AnuncioController:visualizarAnuncio');
         $this->put('/{id:[0-9]+}', '\App\v1\Controllers\AnuncioController:atualizarAnuncio');
         $this->delete('/{id:[0-9]+}', '\App\v1\Controllers\AnuncioController:deletarAnuncio');
+
+        $this->get('/{id:[0-9]+}/ativar', '\App\v1\Controllers\AnuncioController:ativarAnuncio');
+        $this->get('/{id:[0-9]+}/desativar', '\App\v1\Controllers\AnuncioController:desativarAnuncio');
     });
 
     $this->group('/auth', function() {

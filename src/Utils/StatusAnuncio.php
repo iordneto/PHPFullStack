@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-abstract class StatusAnuncio extends BasicEnum {
+abstract class StatusAnuncio {
     const INATIVO = 'INATIVO';
     const ATIVO = 'ATIVO';
 }

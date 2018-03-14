@@ -38,7 +38,7 @@ class AnuncianteController {
      * @return Response
      */
     public function listarAnunciantes($request, $response, $args) {
-        $anunciantes = $this->persistencia->findAll();
+        $anunciantes = $this->persistencia->buscarTodos();
         
         $return = $response
             ->withJson($anunciantes, 200)
@@ -54,24 +54,19 @@ class AnuncianteController {
      * @return Response
      */
     public function inserirAnunciante($request, $response, $args) {
-        $params = (object) $request->getParams();
-        
-        $entityManager = $this->container->get('em');
-        
-        $anunciante = (new Anunciante())
-            ->setNome($params->nome)
-            ->setEndereco($params->endereco)
-            ->setTelefone($params->telefone);
+        $anuncianteJSON = $request->getBody();
+
+        $anunciante = Anunciante::construct($anuncianteJSON);
         
         $logger = $this->container->get('logger');
         $logger->info('Anunciante Criado!', $anunciante->getValues());
         
-        $entityManager->persist($anunciante);
-        $entityManager->flush();
+        $this->persistencia->inserir($anunciante);
+
         $return = $response
-            ->withJson($anunciante, 201)
+            ->withJson($anunciante->toArray(), 201)
             ->withHeader('Content-type', 'application/json');
-        return $return;       
+        return $return;
     }
 
      /**
@@ -84,7 +79,7 @@ class AnuncianteController {
     public function visualizarAnunciante($request, $response, $args) {
         $id = (int) $args['id'];
 
-        $anunciante =$this->persistencia->findById($id);
+        $anunciante =$this->persistencia->visualizarPorId($id);
         $return = $response
             ->withJson($anunciante, 200)
             ->withHeader('Content-type', 'application/json');
@@ -100,27 +95,22 @@ class AnuncianteController {
      */
     public function atualizarAnunciante($request, $response, $args) {
         $id = (int) $args['id'];
+        $anuncianteJSON = $request->getBody();
 
-        $entityManager = $this->container->get('em');
-        $anunciantesRepository = $entityManager->getRepository('App\Models\Entity\Anunciante');
-        $anunciante = $anunciantesRepository->find($id);
+        $identificou = $this->persistencia->identifica($id);
         
-        if (!$anunciante) {
+        if (!$identificou) {
             $logger = $this->container->get('logger');
             $logger->warning("Anunciante {$id} Not Found");
             throw new \Exception("Anunciante not Found", 404);
         }  
     
-        $anunciante
-            ->setNome($request->getParam('nome'))
-            ->setEndereco($request->getParam('endereco'))
-            ->setTelefone($request->getParam('telefone'));
+        $anunciante = Anunciante::construct($anuncianteJSON)->setId($id);
 
-        $entityManager->persist($anunciante);
-        $entityManager->flush();        
+        $this->persistencia->atualizar($anunciante);
         
         $return = $response
-            ->withJson($anunciante, 200)
+            ->withJson($anunciante->toArray(), 200)
             ->withHeader('Content-type', 'application/json');
         return $return;
         
@@ -136,18 +126,16 @@ class AnuncianteController {
     public function deletarAnunciante($request, $response, $args) {
         $id = (int) $args['id'];
 
-        $entityManager = $this->container->get('em');
-        $anunciantesRepository = $entityManager->getRepository('App\Models\Entity\Anunciante');
-        $anunciante = $anunciantesRepository->find($id);   
+        $identificou = $this->persistencia->identifica($id); 
 
-        if (!$anunciante) {
+        if (!$identificou) {
             $logger = $this->container->get('logger');
             $logger->warning("Anunciante {$id} Not Found");
             throw new \Exception("Anunciante not Found", 404);
         }  
+        
+        $this->persistencia->deletar($id); 
 
-        $entityManager->remove($anunciante);
-        $entityManager->flush(); 
         $return = $response
             ->withJson(['msg' => "Deletando o anunciante {$id}"], 204)
             ->withHeader('Content-type', 'application/json');

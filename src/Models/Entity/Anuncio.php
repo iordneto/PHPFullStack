@@ -3,17 +3,19 @@
 namespace App\Models\Entity;
 
 use JMS\Serializer\Annotation\Exclude;
+use App\Utils\StatusAnuncio;
 
 /**
  * @Entity @Table(name="anuncios")
  **/
 class Anuncio {
 
-     /**
-     * @var int
-     * @Id @Column(type="integer") 
-     * @GeneratedValue
-     */
+    /**
+    *	@var integer 
+    *   @Id
+    *   @Column(name="id", type="integer")
+    *   @GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
@@ -36,10 +38,23 @@ class Anuncio {
     
     /**
      * Muitos Anúncios tem um Anunciante.
-     * @ManyToOne(targetEntity="Anunciante", inversedBy="anuncio", fetch="LAZY")
+     * @ManyToOne(targetEntity="Anunciante", inversedBy="anuncios")
      * @JoinColumn(name="anunciante_id", referencedColumnName="id")
      */
     private $anunciante;
+
+    public function __construct($descricao = "") {
+        $this->descricao = $descricao;
+        $this->dataPublicacao = new \DateTime("now");
+        $this->status = StatusAnuncio::ATIVO;
+    }
+
+    public function construct($anuncioJSON){
+        $anuncioArray = json_decode($anuncioJSON, true);
+        $anuncio = new Anuncio($anuncioArray['descricao']);
+        
+        return $anuncio;
+    }
 
      /**
      * @return int id
@@ -79,32 +94,78 @@ class Anuncio {
        return $this;
    }
 
+    /**
+    * @return date dataPublicacao
+    */
+    public function getDataPublicacao(){
+        return $this->dataPublicacao;
+    }
+ 
+     /**
+     * @return App\Models\Entity\Anuncio
+     */
+    public function setDataPublicacao($dataPublicacao){
+        $this->dataPublicacao = $dataPublicacao;
+        
+        return $this;
+    }
+
+    /**
+    * @return string status
+    */
+    public function getStatus(){
+        return $this->status;
+    }
+
    /**
     * @return App\Models\Entity\Anuncio
     */
-   public function setStatus($status)
-   {
-       if (!in_array($status, array(StatusAnuncio::ATIVO, StatusAnuncio::INATIVO))) {
-           throw new \InvalidArgumentException("Status inválido!");
-       }
-       $this->status = $status;
+    private function setStatus($status) {
+        if (!in_array($status, array(StatusAnuncio::ATIVO, StatusAnuncio::INATIVO))) {
+            throw new \InvalidArgumentException("Status inválido!");
+        }
 
-       return $this;
+        $this->status = $status;
+        return $this;
+    }
+
+    public function ativar() {
+       $this->setStatus(StatusAnuncio::ATIVO);
+    }   
+
+    public function desativar() {
+       $this->setStatus(StatusAnuncio::INATIVO);
+    }
+
+    public function atualizaAtributos($anuncioJSON) {
+        $anuncioArray = json_decode($anuncioJSON, true);
+        foreach ($anuncioArray as $key => $value){
+            if (property_exists( $this , $key )){
+                $this->{$key} = $value;
+            }
+        }
    }
-
-     /**
-     * @return App\Models\Entity\Anuncio
+   
+    /**
+     * @return App\Models\Entity\Anunciante
      */
     public function getValues() {
         return get_object_vars($this);
     }
 
-     /**
-     * @return App\Models\Entity\Anuncio
-     */
-    public static function criar($descricao){
-        $anuncio = new Anuncio();
-        $anuncio->setDescricao($descricao);
-        return $anuncio;
+    public function __toString() {
+        return 
+            "'id': '".$this->getId()."'"
+            ."'descricao': '".$this->getDescricao()."'"
+            ."'dataPublicacao': '".$this->getDataPublicacao()."'"
+            ."'status': '".$this->getStatus()."'";
+    }
+
+    public function toArray() {
+        return [
+            "id" => $this->getId(),
+            "descricao" => $this->getDescricao(),
+            "dataPublicacao" => $this->getDataPublicacao(),
+            "status" => $this->getStatus()];
     }
 }

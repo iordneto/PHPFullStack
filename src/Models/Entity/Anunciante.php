@@ -10,9 +10,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Anunciante {
 
     /**
-    *	@var integer @Id
-    *      @Column(name="id", type="integer")
-    *      @GeneratedValue(strategy="AUTO")
+    *	@var integer 
+    *   @Id
+    *   @Column(name="id", type="integer")
+    *   @GeneratedValue(strategy="AUTO")
     */
     private $id;
 
@@ -48,13 +49,13 @@ class Anunciante {
         $this->anuncios = new ArrayCollection();
     }
 
-    public function construct($arrayAnunciante){
+    public function construct($anuncianteJSON){
+        $anuncianteArray = json_decode($anuncianteJSON, true);
         $anunciante = new Anunciante();
         $anunciante
-            ->setId($arrayAnunciante['id'])
-            ->setNome($arrayAnunciante['nome'])
-            ->setEndereco($arrayAnunciante['endereco'])
-            ->setTelefone($arrayAnunciante['telefone']);
+            ->setNome($anuncianteArray['nome'])
+            ->setEndereco($anuncianteArray['endereco'])
+            ->setTelefone($anuncianteArray['telefone']);
         return $anunciante;
     }
 
@@ -63,6 +64,15 @@ class Anunciante {
      */
     public function getId(){
         return $this->id;
+    }
+
+     /**
+     * @return App\Models\Entity\Anunciante
+     */
+    public function setId($id){
+        $this->id = $id;
+
+        return $this;
     }
 
      /**
@@ -114,7 +124,7 @@ class Anunciante {
     }
     
     public function getAnuncios(){
-       return $this->anuncios->toArray();
+       return $this->anuncios;
     }
     
     public function getUltimoAnuncio(){
