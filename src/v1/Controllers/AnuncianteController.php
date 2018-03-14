@@ -1,12 +1,15 @@
 <?php
+
 namespace App\v1\Controllers;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use App\Models\Entity\Anunciante;
+use  APP\v1\DAO\AnuncianteDAO;
 
-class AnuncianteController {
+class AnuncianteController extends AbstractController {
+    
      /**
      * Container Class
      * @var [object]
@@ -19,6 +22,7 @@ class AnuncianteController {
      */
     public function __construct($container) {
         $this->container = $container;
+        parent::__construct(new AnuncianteDAO($this->container->get('em')));
     }
 
      /**

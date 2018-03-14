@@ -2,6 +2,8 @@
 
 namespace App\Models\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity @Table(name="anunciantes")
  **/
@@ -31,6 +33,16 @@ class Anunciante {
      * @Column(type="string") 
      */
     public $telefone;
+
+     /**
+     * Um anunciante tem muitos Anuncios.
+     * @OneToMany(targetEntity="Anuncio", mappedBy="anunciante", cascade={"persist", "remove"})
+     */
+    public $anuncios;
+
+    public function __construct() {
+        $this->anuncios = new ArrayCollection();
+    }
 
      /**
      * @return int id
@@ -86,7 +98,21 @@ class Anunciante {
         
         return $this;
     }
+    
+    public function getAnuncios(){
+       return $this->anuncios->toArray();
+    }
+    
+    public function getUltimoAnuncio(){
+        return $this->anuncios->current();
+     }
 
+    public function adicionaAnuncio($descricao){
+        $anuncio = Anuncio::criar($descricao);
+        $anuncio->setAnunciante($this);
+        $this->anuncios->add($anuncio);
+    }
+    
      /**
      * @return App\Models\Entity\Anunciante
      */
