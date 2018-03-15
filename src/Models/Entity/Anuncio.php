@@ -161,7 +161,7 @@ class Anuncio {
         return [
             "id" => $this->getId(),
             "descricao" => $this->getDescricao(),
-            "dataPublicacao" => $this->getDataPublicacao(),
+            "dataPublicacao" => $this->getDataPublicacao()->format('d/m/Y'),
             "status" => $this->getStatus()];
     }
 }
