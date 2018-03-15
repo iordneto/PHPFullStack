@@ -34,7 +34,7 @@ $container['errorHandler'] = function ($container) {
         $statusCode = $exception->getCode() ? $exception->getCode() : 500;
         return $container['response']->withStatus($statusCode)
             ->withHeader('Content-Type', 'Application/json')
-            ->withJson(["message" => $exception->getMessage()], $statusCode);
+            ->withJson(["error" => $exception->getMessage()], $statusCode);
     };
 };
 
@@ -48,7 +48,7 @@ $container['notAllowedHandler'] = function ($container) {
             ->withHeader('Allow', implode(', ', $methods))
             ->withHeader('Content-Type', 'Application/json')
             ->withHeader("Access-Control-Allow-Methods", implode(",", $methods))
-            ->withJson(["message" => "Method not Allowed; Method must be one of: " . implode(', ', $methods)], 405);
+            ->withJson(["message" => "Método não Suportado; O método deve ser um desses: " . implode(', ', $methods)], 405);
     };
 };
 
@@ -60,7 +60,7 @@ $container['notFoundHandler'] = function ($container) {
         return $container['response']
             ->withStatus(404)
             ->withHeader('Content-Type', 'Application/json')
-            ->withJson(['message' => 'Page not found']);
+            ->withJson(['message' => 'Endpoint não encontrado']);
     };
 };
 
@@ -120,5 +120,5 @@ $app = new \Slim\App($container);
  * false - Remove a / no final da URL
  */
 $app->add(new TrailingSlash(false));
-
+$app->add(new \Tuupola\Middleware\CorsMiddleware);
 
