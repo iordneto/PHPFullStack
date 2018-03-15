@@ -10,10 +10,15 @@ class AnuncianteDAO extends AbstractDAO{
 		parent::__construct('App\Models\Entity\Anunciante', $entityManager);
 	}
 
-	public function deletar($obj){
-		if(!is_null(obj)){
-			$this->entityManager->remove($obj);
-			$this->entityManager->flush();
+	public function listarDividaAnunciantes() {
+		$collection = $this->entityManager->getRepository('App\Models\Entity\Anunciante')->findAll();
+
+		$data = array();
+		foreach($collection as $obj) {
+			$data[] = ["advertiser" => $obj->getNome(),
+						 "value" => $obj->getAnuncios()->count() * 10];
 		}
+
+		return $data;
 	}
 }

@@ -140,5 +140,21 @@ class AnuncianteController {
             ->withJson(['msg' => "Deletando o anunciante {$id}"], 204)
             ->withHeader('Content-type', 'application/json');
         return $return;    
-    }    
+    }
+    
+      /**
+     * Resumo da dívida de cada Anunciante
+     * @param [type] $request
+     * @param [type] $response
+     * @param [type] $args
+     * @return Response
+     */
+    public function listarDividaAnunciantes($request, $response, $args) {
+        $listaDeDividas = $this->persistencia->listarDividaAnunciantes();
+
+        $return = $response
+            ->withJson($listaDeDividas, 200)
+            ->withHeader('Content-type', 'application/json');
+        return $return;
+    }
 }

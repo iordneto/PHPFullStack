@@ -11,6 +11,8 @@ use App\Models\Entity\Anunciante;
 use  App\v1\DAO\AnuncioDAO;
 use  App\v1\DAO\AnuncianteDAO;
 
+use App\Utils\StatusAnuncio;
+
 class AnuncioController {
     
      /**

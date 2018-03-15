@@ -8,6 +8,8 @@ $app->group('/v1', function() {
         $this->get('/{id:[0-9]+}', '\App\v1\Controllers\AnuncianteController:visualizarAnunciante');
         $this->put('/{id:[0-9]+}', '\App\v1\Controllers\AnuncianteController:atualizarAnunciante');
         $this->delete('/{id:[0-9]+}', '\App\v1\Controllers\AnuncianteController:deletarAnunciante');
+
+        $this->get('/devedores', '\App\v1\Controllers\AnuncianteController:listarDividaAnunciantes');
     });
 
     $this->group('/anunciantes/{idAnunciante:[0-9]+}/anuncios', function() {

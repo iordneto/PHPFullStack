@@ -143,8 +143,8 @@ class Anuncio {
             if (property_exists( $this , $key )){
                 $this->{$key} = $value;
             }
-        }
-   }
+        }   
+    }
    
     /**
      * @return App\Models\Entity\Anunciante
