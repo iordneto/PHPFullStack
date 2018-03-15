@@ -74,6 +74,9 @@ class Anuncio {
      * @return App\Models\Entity\Anuncio
      */
     public function setDescricao($descricao){
+        if (!$descricao && !is_string($descricao)) {
+            throw new \InvalidArgumentException("Descrição deve ser informado!", 400);
+        }
         $this->descricao = $descricao;
 
         return $this;

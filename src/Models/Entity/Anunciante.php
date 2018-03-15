@@ -86,6 +86,10 @@ class Anunciante {
      * @return App\Models\Entity\Anunciante
      */
     public function setNome($nome){
+        if (!$nome && !is_string($nome)) {
+            throw new \InvalidArgumentException("Nome deve ser informado!", 400);
+        }
+
         $this->nome = $nome;
 
         return $this;
@@ -102,6 +106,9 @@ class Anunciante {
      * @return App\Models\Entity\Anunciante
      */
     public function setEndereco($endereco){
+        if (!$endereco && !is_string($endereco)) {
+            throw new \InvalidArgumentException("Endereço deve ser informado!", 400);
+        }
         $this->endereco = $endereco;
 
         return $this;
@@ -118,6 +125,9 @@ class Anunciante {
      * @return App\Models\Entity\Anunciante
      */
     public function setTelefone($telefone){
+        if (!$telefone && !is_string($telefone)) {
+            throw new \InvalidArgumentException("Telefone deve ser informado!", 400);
+        }
         $this->telefone = $telefone;
         
         return $this;
@@ -125,16 +135,6 @@ class Anunciante {
     
     public function getAnuncios(){
        return $this->anuncios;
-    }
-    
-    public function getUltimoAnuncio(){
-        return $this->anuncios->current();
-     }
-
-    public function adicionaAnuncio($descricao){
-        $anuncio = Anuncio::criar($descricao);
-        $anuncio->setAnunciante($this);
-        $this->anuncios->add($anuncio);
     }
     
      /**
