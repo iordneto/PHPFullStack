@@ -2,6 +2,9 @@
 
 Esse projeto contém uma API HTTP para o controle de anúncios de classificados, anunciantes e controle financeiro referente a veiculação de anúncios na plataforma. Esse projeto utiliza o Composer para gerenciamento e injeção de dependências, Doctrine 2 para abstração da camada de Persistência, Slim 3 para construção da API HTTP. 
 
+API hospedado na Plataforma de hospedagem em núvem [Heroku](https://www.heroku.com/): (https://iord-php-backend.herokuapp.com/v1/)  
+
+
 ## Começando
 
 ### Pré-requisitos
@@ -32,6 +35,16 @@ $ php -S localhost:8000
 ```
 
 ## Utilizando a API
+
+
+Você pode utilizar a API de forma local, como explicado acima, ou pode testar diretamente através da versão hospedada na plataforma [Heroku](https://www.heroku.com/)
+
+
+```
+https://iord-php-backend.herokuapp.com/v1/
+```
+
+*O link acima é um equivalente a nossa rota "http://localhost:8000/v1".* 
 
 
 ### Requerindo um Token para autenticação
