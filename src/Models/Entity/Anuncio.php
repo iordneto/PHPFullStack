@@ -51,7 +51,8 @@ class Anuncio {
 
     public function construct($anuncioJSON){
         $anuncioArray = json_decode($anuncioJSON, true);
-        $anuncio = new Anuncio($anuncioArray['descricao']);
+        $anuncio = (new Anuncio())->setDescricao($anuncioArray['descricao']);
+
         
         return $anuncio;
     }
@@ -75,7 +76,7 @@ class Anuncio {
      */
     public function setDescricao($descricao){
         if (!$descricao && !is_string($descricao)) {
-            throw new \InvalidArgumentException("Descrição deve ser informado!", 400);
+            throw new \InvalidArgumentException("Descrição deve ser informada!", 400);
         }
         $this->descricao = $descricao;
 

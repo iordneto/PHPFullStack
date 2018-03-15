@@ -80,6 +80,13 @@ class AnuncianteController {
         $id = (int) $args['id'];
 
         $anunciante =$this->persistencia->visualizarPorId($id);
+
+        if (!$anunciante) {
+            $logger = $this->container->get('logger');
+            $logger->warning("Anunciante {$id} não encontrado");
+            throw new \Exception("Anunciante {$id} não encontrado", 404);
+        } 
+
         $return = $response
             ->withJson($anunciante, 200)
             ->withHeader('Content-type', 'application/json');
@@ -101,8 +108,8 @@ class AnuncianteController {
         
         if (!$identificou) {
             $logger = $this->container->get('logger');
-            $logger->warning("Anunciante {$id} Not Found");
-            throw new \Exception("Anunciante not Found", 404);
+            $logger->warning("Anunciante {$id} não encontrado");
+            throw new \Exception("Anunciante {$id} não encontrado", 404);
         }  
     
         $anunciante = Anunciante::construct($anuncianteJSON)->setId($id);
@@ -126,18 +133,18 @@ class AnuncianteController {
     public function deletarAnunciante($request, $response, $args) {
         $id = (int) $args['id'];
 
-        $identificou = $this->persistencia->identifica($id); 
+        $anunciante = $this->persistencia->buscarPorId($id); 
 
-        if (!$identificou) {
+        if (!$anunciante) {
             $logger = $this->container->get('logger');
-            $logger->warning("Anunciante {$id} Not Found");
-            throw new \Exception("Anunciante not Found", 404);
+            $logger->warning("Anunciante {$id} não encontrado");
+            throw new \Exception("Anunciante {$id} não encontrado", 404);
         }  
         
-        $this->persistencia->deletar($id); 
+        $this->persistencia->deletar($anunciante); 
 
         $return = $response
-            ->withJson(['msg' => "Deletando o anunciante {$id}"], 204)
+            ->withJson(['msg' => "Deletando o Anunciante {$id}"], 204)
             ->withHeader('Content-type', 'application/json');
         return $return;    
     }

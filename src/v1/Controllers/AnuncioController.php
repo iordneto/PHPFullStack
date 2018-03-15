@@ -67,7 +67,21 @@ class AnuncioController {
     public function listarAnuncios($request, $response, $args) {
         $idAnunciante = (int) $args['idAnunciante'];
         
+        $identificou = $this->persistenciaAnunciante->identifica($idAnunciante);
+
+        if (!$identificou) {
+            $logger = $this->container->get('logger');
+            $logger->warning("Anunciante {$idAnunciante} não encontrado");
+            throw new \Exception("Anunciante {$idAnunciante} não encontrado", 404);
+        }
+
         $anuncios = $this->persistencia->buscarPor(array('anunciante' => $idAnunciante));
+
+        if (!$anuncios) {
+            $logger = $this->container->get('logger');
+            $logger->warning("Nenhum anuncio encontrado para o Anunciante {$idAnunciante}");
+            throw new \Exception("Nenhum anuncio encontrado para o Anunciante {$idAnunciante}", 404);
+        }
         
         $return = $response
             ->withJson($anuncios, 200)
@@ -87,10 +101,10 @@ class AnuncioController {
 
         $anunciante =$this->persistenciaAnunciante->buscarPorId($idAnunciante);
     
-        if(is_null($anunciante)){
+        if(!$anunciante){
             $logger = $this->container->get('logger');
-            $logger->warning("Anunciante {$id} Not Found");
-            throw new \Exception("Anunciante not Found", 404);
+            $logger->warning("Anunciante {$idAnunciante} não encontrado");
+            throw new \Exception("Anunciante {$idAnunciante} não encontrado", 404);
         }
 
         $anuncioJSON = $request->getBody();
@@ -119,10 +133,24 @@ class AnuncioController {
         $idAnunciante = (int) $args['idAnunciante'];
         $id = (int) $args['id'];
 
+        $identificou = $this->persistenciaAnunciante->identifica($idAnunciante);
+
+        if (!$identificou) {
+            $logger = $this->container->get('logger');
+            $logger->warning("Anunciante {$idAnunciante} não encontrado");
+            throw new \Exception("Anunciante {$idAnunciante} não encontrado", 404);
+        }
+
         $anuncio = $this->persistencia->visualizarUmPor(
             array(
                 'anunciante' => $idAnunciante,
                 'id' => $id));
+        
+        if (!$anuncio) {
+            $logger = $this->container->get('logger');
+            $logger->warning("Anuncio {$id} não encontrado para o anunciante {$idAnunciante}");
+            throw new \Exception("Anuncio {$id} não encontrado  não encontrado para o anunciante {$idAnunciante}", 404);
+        } 
        
         $return = $response
             ->withJson($anuncio, 200)
@@ -145,10 +173,10 @@ class AnuncioController {
 
         $anunciante =$this->persistenciaAnunciante->buscarPorId($idAnunciante);
     
-        if(is_null($anunciante)){
+        if(!$anunciante){
             $logger = $this->container->get('logger');
-            $logger->warning("Anunciante {$id} Not Found");
-            throw new \Exception("Anunciante not Found", 404);
+            $logger->warning("Anunciante {$idAnunciante} não encontrado");
+            throw new \Exception("Anunciante {$idAnunciante} não encontrado", 404);
         }
 
         $anuncio = $this->persistencia->buscarUmPor(
@@ -156,10 +184,10 @@ class AnuncioController {
                 'anunciante' => $idAnunciante,
                 'id' => $id));
         
-        if(is_null($anuncio)){
+        if(!$anuncio){
             $logger = $this->container->get('logger');
-            $logger->warning("Anuncio {$id} Not Found");
-            throw new \Exception("Anuncio not Found", 404);
+            $logger->warning("Anuncio {$id} não encontrado para o anunciante {$idAnunciante}");
+            throw new \Exception("Anuncio {$id} não encontrado  não encontrado para o anunciante {$idAnunciante}", 404);
         }
         
         $anuncio->atualizaAtributos($anuncioJSON);
@@ -187,10 +215,10 @@ class AnuncioController {
 
         $anunciante =$this->persistenciaAnunciante->buscarPorId($idAnunciante);
     
-        if(is_null($anunciante)){
+        if(!$anunciante){
             $logger = $this->container->get('logger');
-            $logger->warning("Anunciante {$id} Not Found");
-            throw new \Exception("Anunciante not Found", 404);
+            $logger->warning("Anunciante {$idAnunciante} não encontrado");
+            throw new \Exception("Anunciante {$idAnunciante} não encontrado", 404);
         }
 
         $anuncio = $this->persistencia->buscarUmPor(
@@ -198,10 +226,10 @@ class AnuncioController {
                 'anunciante' => $idAnunciante,
                 'id' => $id));
         
-        if(is_null($anuncio)){
+        if(!$anuncio){
             $logger = $this->container->get('logger');
-            $logger->warning("Anuncio {$id} Not Found");
-            throw new \Exception("Anuncio not Found", 404);
+            $logger->warning("Anuncio {$id} não encontrado para o anunciante {$idAnunciante}");
+            throw new \Exception("Anuncio {$id} não encontrado  não encontrado para o anunciante {$idAnunciante}", 404);
         }
 
         $anunciante->getAnuncios()->remove($id);        
@@ -230,10 +258,10 @@ class AnuncioController {
 
         $anunciante =$this->persistenciaAnunciante->buscarPorId($idAnunciante);
     
-        if(is_null($anunciante)){
+        if(!$anunciante){
             $logger = $this->container->get('logger');
-            $logger->warning("Anunciante {$id} Not Found");
-            throw new \Exception("Anunciante not Found", 404);
+            $logger->warning("Anunciante {$idAnunciante} não encontrado");
+            throw new \Exception("Anunciante {$idAnunciante} não encontrado", 404);
         }
 
         $anuncio = $this->persistencia->buscarUmPor(
@@ -241,10 +269,10 @@ class AnuncioController {
                 'anunciante' => $idAnunciante,
                 'id' => $id));
         
-        if(is_null($anuncio)){
+        if(!$anuncio){
             $logger = $this->container->get('logger');
-            $logger->warning("Anuncio {$id} Not Found");
-            throw new \Exception("Anuncio not Found", 404);
+            $logger->warning("Anuncio {$id} não encontrado para o anunciante {$idAnunciante}");
+            throw new \Exception("Anuncio {$id} não encontrado  não encontrado para o anunciante {$idAnunciante}", 404);
         }
         
         $anuncio->ativar();
@@ -274,10 +302,10 @@ class AnuncioController {
 
         $anunciante =$this->persistenciaAnunciante->buscarPorId($idAnunciante);
     
-        if(is_null($anunciante)){
+        if(!$anunciante){
             $logger = $this->container->get('logger');
-            $logger->warning("Anunciante {$id} Not Found");
-            throw new \Exception("Anunciante not Found", 404);
+            $logger->warning("Anunciante {$idAnunciante} não encontrado");
+            throw new \Exception("Anunciante {$idAnunciante} não encontrado", 404);
         }
 
         $anuncio = $this->persistencia->buscarUmPor(
@@ -285,10 +313,10 @@ class AnuncioController {
                 'anunciante' => $idAnunciante,
                 'id' => $id));
         
-        if(is_null($anuncio)){
+        if(!$anuncio){
             $logger = $this->container->get('logger');
-            $logger->warning("Anuncio {$id} Not Found");
-            throw new \Exception("Anuncio not Found", 404);
+            $logger->warning("Anuncio {$id} não encontrado para o anunciante {$idAnunciante}");
+            throw new \Exception("Anuncio {$id} não encontrado  não encontrado para o anunciante {$idAnunciante}", 404);
         }
         
         $anuncio->desativar();
