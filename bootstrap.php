@@ -128,3 +128,22 @@ $app->add(function ($req, $res, $next) {
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
 
+$app->add(new \Slim\Middleware\HttpBasicAuthentication([
+    
+    "users" => [
+        "admin " => "admin"
+    ],
+
+    "path" => ["/v1/auth"],
+]));
+
+$app->add(new \Slim\Middleware\JwtAuthentication([
+    "regexp" => "/(.*)/",
+    "header" => "X-Token",
+    "path" => "/",
+    "passthrough" => ["/auth", "/v1/auth"],
+    "realm" => "Protected",
+    "secret" => $container['secretkey']
+]));
+
+
