@@ -14,9 +14,14 @@ class AnuncianteDAO extends AbstractDAO{
 		$collection = $this->entityManager->getRepository('App\Models\Entity\Anunciante')->findAll();
 
 		$data = array();
-		foreach($collection as $obj) {
-			$data[] = ["advertiser" => $obj->getNome(),
-						 "value" => $obj->getAnuncios()->count() * 10];
+		foreach($collection as $anunciante) {
+			$anunciosAtivos = $anunciante->getAnuncios()->filter(
+				function($anuncio) {
+					return in_array($anuncio->getStatus(), array('ATIVO'));
+				 }
+			);
+			$data[] = ["advertiser" => $anunciante->getNome(),
+						 "value" => $anunciosAtivos->count() * 10];
 		}
 
 		return $data;
