@@ -10,7 +10,8 @@
     "tuupola/slim-jwt-auth": "^2.3",
     "tuupola/slim-basic-auth": "^2.2",
     "firebase/php-jwt": "^4.0",
-    "akrabat/rka-scheme-and-host-detection-middleware": "^0.3.0"
+    "akrabat/rka-scheme-and-host-detection-middleware": "^0.3.0",
+    "ext-pdo_sqlite": "^7.2"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"

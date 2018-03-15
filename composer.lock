@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b53979306681a85f54de465e4621245",
+    "content-hash": "60555b0318a936c28c72ad6dcd792aaf",
     "packages": [
         {
             "name": "akrabat/rka-scheme-and-host-detection-middleware",
@@ -2202,6 +2202,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-pdo_sqlite": "^7.2"
+    },
     "platform-dev": []
 }
