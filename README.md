@@ -6,11 +6,7 @@ Esse projeto contém uma API HTTP para o controle de anúncios de classificados,
 
 ### Pré-requisitos
 
-Para instalar as dependências do projeto é necessário ter instalado o [composer](https://getcomposer.org/).
-
-```
-Give examples
-```
+Para instalar as dependências do projeto é necessário ter instalado o [composer](https://getcomposer.org/). E o XAMPP
 
 ### Instalação e configuração
 
@@ -57,7 +53,7 @@ O retorno deve ser algo parecido com
 Esse token deve ser utilizado para o resto dos endpoints da Aplicação como um HEADER da requisição, chamado *"X-Token"*:
 
 ```
-curl -X GET -H "X-Token:{auth-token}" http://localhost:8000/v1/anunciantes -i
+curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes -i
 ```
 
 onde *"auth-token"* é o Token resultado da consulta 
@@ -68,12 +64,12 @@ $ curl -u admin:admin -X GET http://localhost:8000/auth
 
 ## Operações com Anunciante
 
-Foram implementadas quatro operaçãoes HTTP para a entidade de Anunciante, são elas: *(GET, POST, PUT, DELETE)*
+Foram implementadas quatro operaçãoes HTTP para a entidade de Anunciante, são elas: *GET, POST, PUT e DELETE*
 
 ### Consultando todos os Anunciantes
 
 ```
-$ curl -X GET -H "X-Token:{auth-token}" http://localhost:8000/v1/anunciantes
+$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes
 ```
 
 ### Consultando um Anunciante
@@ -101,6 +97,7 @@ Exemplo: Consultando o Anunciante com identificador igual a 1.
 $ curl -X PUT http://localhost:8000/v1/anunciantes/1
     --header "Content-type: application/json" 
     --header "X-Token: seu-token-de-acesso"
+    --data '{"nome": "Anunciante atualizado", "endereco": "Rua Nova - Outra Cidade, UF", "telefone": "(00) 00000-01"}'
 ```
 
 ### Deletando um Anunciante
@@ -110,8 +107,86 @@ Exemplo: Deletando o Anunciante com identificador igual a 1.
 ```
 $ curl -X DELETE -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/1
 ```
+
+## Operações com Anúncio
+
+Foram implementadas quatro operaçãoes HTTP para a entidade de Anúncio, são elas: *GET, POST, PUT e DELETE*
+
+### Consultando todos os Anúncios de um Anunciante
+
+Exemplo: Consultando todos os anúncios do anunciante com identificador igual a 6:
+
+```
+$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/6/anuncios
+```
+
+### Consultando um Anúncio
+
+Exemplo: Consultando o Anúncio de identificador igual a 3 do Anunciante com identificador igual a 8.
+
+```
+$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/8/anuncios/3
+```
+
+### Inserindo um novo Anúncio
+
+Exemplo: Inserindo um novo Anúncio para o Anunciante com identificador igual a 8.
+
+```
+$ curl -X POST http://localhost:8000/v1/anunciantes/8/anuncios
+    --header "Content-type: application/json" 
+    --header "X-Token: seu-token-de-acesso"
+    --data '{"descricao": "Aqui vai a descrição do anúncio"}'
+```
+
+### Atualizando um Anúncio
+
+Exemplo: Atualizando o anúncio de identificador igual a 5 do Anunciante com identificador igual 2
+
+```
+$ curl -X POST http://localhost:8000/v1/anunciantes/2/anuncios/5
+    --header "Content-type: application/json" 
+    --header "X-Token: seu-token-de-acesso"
+    --data '{"descricao": "Aqui vai a descrição atualizada"}'
+```
+
+### Deletando um Anunciante
+
+Exemplo: Deletando o Anúncios com identificador igual a 14 do Anunciante com identificador igual a 3.
+
+```
+$ curl -X DELETE -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/3/anuncios/14
+```
+
+## Ativar um anúncio
+
+Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 87
+
+```
+$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/97/anuncios/2/ativar
+```
+
+## Desativar um anúncio
+
+Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 87
+
+```
+$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/97/anuncios/2/desativar
+```
+
+#Operações Especiais
+
+## Lista de devedores
+
+Baseado nos anúncios ativos de um usuário dado preço fixado no sistema igual a 10, esse <b>*Endpoint*</b> busca o nome e o valor devido de cada Anunciante ativo no sistema.
+
+```
+$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/devedores
+```
+
 ## Construído com 
 
+* [PHP V7.2.2](http://www.php.net/)
 * [Slim](http://www.dropwizard.io/1.0.2/docs/) - O micro-framework utilizado para construi a API HTTP
 * [composer](https://getcomposer.org/) - Gerenciamento de dependências
 * [Doctrine](http://www.doctrine-project.org/) - Usado para abstrair a camada de persistência da aplicação
