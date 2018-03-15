@@ -160,7 +160,7 @@ $ curl -X DELETE -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anun
 ```
 
 
-## Desativando um anúncio
+### Desativando um anúncio
 
 Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 87
 
@@ -168,7 +168,7 @@ Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 8
 $ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/97/anuncios/2/desativar
 ```
 
-## Ativando um anúncio
+### Ativando um anúncio
 
 Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 87
 
