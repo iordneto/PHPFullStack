@@ -130,6 +130,7 @@ $ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anuncia
 
 ### Inserindo um novo Anúncio
 
+*Ao inserir um novo anúncio ele é persistido no sistema como um anúncio ATIVO.*
 Exemplo: Inserindo um novo Anúncio para o Anunciante com identificador igual a 8.
 
 ```
@@ -150,7 +151,7 @@ $ curl -X POST http://localhost:8000/v1/anunciantes/2/anuncios/5
     --data '{"descricao": "Aqui vai a descrição atualizada"}'
 ```
 
-### Deletando um Anunciante
+### Deletando um Anúncio
 
 Exemplo: Deletando o Anúncios com identificador igual a 14 do Anunciante com identificador igual a 3.
 
@@ -158,15 +159,8 @@ Exemplo: Deletando o Anúncios com identificador igual a 14 do Anunciante com id
 $ curl -X DELETE -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/3/anuncios/14
 ```
 
-## Ativar um anúncio
 
-Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 87
-
-```
-$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/97/anuncios/2/ativar
-```
-
-## Desativar um anúncio
+## Desativando um anúncio
 
 Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 87
 
@@ -174,9 +168,18 @@ Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 8
 $ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/97/anuncios/2/desativar
 ```
 
-#Operações Especiais
+## Ativando um anúncio
 
-## Lista de devedores
+Exemplo: Ativando Anúncio com identificador 2 do Anunciante com identificador 87
+
+```
+$ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/97/anuncios/2/ativar
+```
+
+
+##Operações Especiais
+
+### Lista de devedores
 
 Baseado nos anúncios ativos de um usuário dado preço fixado no sistema igual a 10, esse <b>*Endpoint*</b> busca o nome e o valor devido de cada Anunciante ativo no sistema.
 
