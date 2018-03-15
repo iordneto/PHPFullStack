@@ -131,11 +131,19 @@ $app->add(function ($req, $res, $next) {
 $app->add(new \Slim\Middleware\HttpBasicAuthentication([
     
     "users" => [
-        "admin " => "admin"
+        "user" => "reus"
     ],
 
     "path" => ["/v1/auth"],
 ]));
 
+$app->add(new \Slim\Middleware\JwtAuthentication([
+    "regexp" => "/(.*)/",
+    "header" => "X-Token",
+    "path" => "/",
+    "passthrough" => ["/auth", "/v1/auth"],
+    "realm" => "Protected",
+    "secret" => $container['secretkey']
+]));
 
 
