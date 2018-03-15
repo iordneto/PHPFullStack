@@ -4,7 +4,7 @@ Esse projeto contém uma API HTTP para o controle de anúncios de classificados,
 
 ## Começando
 
-### Prerequisites
+### Pré-requisitos
 
 Para instalar as dependências do projeto é necessário ter instalado o [composer](https://getcomposer.org/).
 
@@ -26,8 +26,6 @@ Logo após, é necessário entrar no diretório do projeto no diretório onde es
 $ cd PHPFullStack
 $ composer install
 ```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Iniciando o projeto
 
@@ -56,13 +54,13 @@ O retorno deve ser algo parecido com
   "auth-jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiQGZpZGVsaXNzYXVybyIsInR3aXR0ZXIiOiJodHRwczpcL1wvdHdpdHRlci5jb21cL2ZpZGVsaXNzYXVybyIsImdpdGh1YiI6Imh0dHBzOlwvXC9naXRodWIuY29tXC9tc2ZpZGVsaXMifQ.5TSgJhrZnIDDnq9eXObFkDMGv8gw1yarErwAz9aZrwo"
 }
 ```
-Esse token deve ser utilizado para o resto dos endpoints da Aplicação como um HEADER da requisição, chamado X-Token:
+Esse token deve ser utilizado para o resto dos endpoints da Aplicação como um HEADER da requisição, chamado *"X-Token"*:
 
 ```
 curl -X GET -H "X-Token:{auth-token}" http://localhost:8000/v1/anunciantes -i
 ```
 
-onde 'auth-token' é o Token consultado em 
+onde *"auth-token"* é o Token resultado da consulta 
 
 ```
 $ curl -u admin:admin -X GET http://localhost:8000/auth
@@ -70,7 +68,7 @@ $ curl -u admin:admin -X GET http://localhost:8000/auth
 
 ## Operações com Anunciante
 
-Foram implementadas quatro operaçãoes HTTP para a entidade de Anunciante, são elas: (GET, POST, PUT, DELETE)
+Foram implementadas quatro operaçãoes HTTP para a entidade de Anunciante, são elas: *(GET, POST, PUT, DELETE)*
 
 ### Consultando todos os Anunciantes
 
@@ -112,6 +110,7 @@ Exemplo: Deletando o Anunciante com identificador igual a 1.
 ```
 $ curl -X DELETE -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anunciantes/1
 ```
+## Construído com 
 
 * [Slim](http://www.dropwizard.io/1.0.2/docs/) - O micro-framework utilizado para construi a API HTTP
 * [composer](https://getcomposer.org/) - Gerenciamento de dependências
@@ -121,7 +120,7 @@ $ curl -X DELETE -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anun
 
 [v1.0](https://github.com/iordneto/PHPFullStack.git) 
 
-## Authors
+## Autores
 
 * **Iord Neto** - *Trabalho Inicial* - [github](https://github.com/iordneto)
 
