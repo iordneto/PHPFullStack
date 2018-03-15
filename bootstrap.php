@@ -8,21 +8,13 @@ use Psr7Middlewares\Middleware\TrailingSlash;
 use Monolog\Logger;
 use Firebase\JWT\JWT;
 
-/**
- * Configurações
- */
+
 $configs = [
     'settings' => [
         'displayErrorDetails' => true,
     ]   
 ];
 
-/**
- * Container Resources do Slim.
- * Aqui dentro dele vamos carregar todas as dependências
- * da nossa aplicação que vão ser consumidas durante a execução
- * da nossa API
- */
 $container = new \Slim\Container($configs);
 
 
@@ -85,41 +77,20 @@ $isDevMode = true;
  */
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/src/Models/Entity"), $isDevMode);
 
-/**
- * Array de configurações da nossa conexão com o banco
- */
 $conn = array(
     'driver' => 'pdo_sqlite',
     'path' => __DIR__ . '/db.sqlite',
 );
 
-/**
- * Instância do Entity Manager
- */
 $entityManager = EntityManager::create($conn, $config);
-
-
-/**
- * Coloca o Entity manager dentro do container com o nome de em (Entity Manager)
- */
 $container['em'] = $entityManager;
 
-/**
- * Token do nosso JWT
- */
 $container['secretkey'] = "advmed";
 
-/**
- * Application Instance
- */
 $app = new \Slim\App($container);
 
-/**
- * @Middleware Tratamento da / do Request 
- * true - Adiciona a / no final da URL
- * false - Remove a / no final da URL
- */
 $app->add(new TrailingSlash(false));
+
 $app->add(function ($req, $res, $next) {
     $response = $next($req, $res);
     return $response
@@ -143,7 +114,7 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/",
     "header" => "X-Token",
     "path" => "/",
-    "passthrough" => ["/auth", "/v1/auth"],
+    "passthrough" => ["/v1/auth"],
     "realm" => "Protected",
     "secure" => false,
     "secret" => $container['secretkey']
