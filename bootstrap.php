@@ -137,14 +137,5 @@ $app->add(new \Slim\Middleware\HttpBasicAuthentication([
     "path" => ["/v1/auth"],
 ]));
 
-$app->add(new \Slim\Middleware\JwtAuthentication([
-    "regexp" => "/(.*)/",
-    "header" => "X-Token",
-    "path" => "/",
-    "passthrough" => ["/auth", "/v1/auth"],
-    "realm" => "Protected",
-    "secret" => $container['secretkey'],
-    "secure" => true
-]));
 
 
