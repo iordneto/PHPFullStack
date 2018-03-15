@@ -128,14 +128,6 @@ $app->add(function ($req, $res, $next) {
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
 
-$app->add(new \Slim\Middleware\HttpBasicAuthentication([
-    
-    "users" => [
-        "user" => "reus"
-    ],
-
-    "path" => ["/v1/auth"],
-]));
 
 $app->add(new \Slim\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/",
