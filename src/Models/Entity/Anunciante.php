@@ -144,14 +144,6 @@ class Anunciante {
         return get_object_vars($this);
     }
 
-    public function __toString() {
-        return 
-            "'id': '".$this->getId()."'"
-            ."'nome': '".$this->getNome()."'"
-            ."'endereco': '".$this->getEndereco()."'"
-            ."'telefone': '".$this->getTelefone()."'";
-    }
-
     public function toArray() {
         return [
             "id" => $this->getId(),

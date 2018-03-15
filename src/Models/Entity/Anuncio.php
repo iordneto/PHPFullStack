@@ -156,15 +156,7 @@ class Anuncio {
     public function getValues() {
         return get_object_vars($this);
     }
-
-    public function __toString() {
-        return 
-            "'id': '".$this->getId()."'"
-            ."'descricao': '".$this->getDescricao()."'"
-            ."'dataPublicacao': '".$this->getDataPublicacao()."'"
-            ."'status': '".$this->getStatus()."'";
-    }
-
+    
     public function toArray() {
         return [
             "id" => $this->getId(),

@@ -3,6 +3,8 @@
 namespace App\v1\DAO;
 
 use App\v1\DAO\AbstractDAO;
+use App\Utils\StatusAnuncio;
+use App\Utils\AnuncioConfig;
 
 class AnuncianteDAO extends AbstractDAO{
 
@@ -11,19 +13,21 @@ class AnuncianteDAO extends AbstractDAO{
 	}
 
 	public function listarDividaAnunciantes() {
-		$collection = $this->entityManager->getRepository('App\Models\Entity\Anunciante')->findAll();
+		$anunciantes = $this->entityManager->getRepository('App\Models\Entity\Anunciante')->findAll();
 
-		$data = array();
-		foreach($collection as $anunciante) {
+		$listaDivida = array();
+		foreach($anunciantes as $anunciante) {
 			$anunciosAtivos = $anunciante->getAnuncios()->filter(
 				function($anuncio) {
-					return in_array($anuncio->getStatus(), array('ATIVO'));
+					return in_array($anuncio->getStatus(), array(StatusAnuncio::ATIVO));
 				 }
 			);
-			$data[] = ["advertiser" => $anunciante->getNome(),
-						 "value" => $anunciosAtivos->count() * 10];
+			
+			$listaDivida[] = [
+				"advertiser" => $anunciante->getNome(),
+				"value" => $anunciosAtivos->count() * AnuncioConfig::PRECO_FIXO];
 		}
 
-		return $data;
+		return $listaDivida;
 	}
 }
