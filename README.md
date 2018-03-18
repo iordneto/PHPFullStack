@@ -203,7 +203,7 @@ $ curl -X GET -H "X-Token: seu-token-de-acesso" http://localhost:8000/v1/anuncia
 ## Construído com 
 
 * [PHP V7.2.2](http://www.php.net/)
-* [Slim](http://www.dropwizard.io/1.0.2/docs/) - O micro-framework utilizado para construi a API HTTP
+* [Slim](http://www.dropwizard.io/1.0.2/docs/) - O micro-framework utilizado para construir a API HTTP
 * [composer](https://getcomposer.org/) - Gerenciamento de dependências
 * [Doctrine](http://www.doctrine-project.org/) - Usado para abstrair a camada de persistência da aplicação
 
